@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="res/js/jquery-3.7.1.min.js"></script>
+<script src="res/js/bootstrap.bundle.min.js"></script>
+<link href="res/css/bootstrap.min.css" rel="stylesheet" >
+<link rel="stylesheet" href="res/css/empadd.css">
+</head>
+<body>
+    <div class="container-xl px-4 mt-4">
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+            <a class="nav-link" href="empadd.html" target="__blank">Add Employee</a>
+            <a class="nav-link" href="viewemp.html" target="__blank">View Employees</a>
+            <a class="nav-link active ms-0" href="#" target="__blank">Edit Employee</a>
+            <a class="nav-link" href="#"  target="__blank">C</a>
+        </nav>
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="col-xl-4">
+                <form enctype="multipart/form-data">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Profile Picture</div>
+                    <div class="card-body text-center">
+                        <!-- Profile picture image-->
+                            <div class="avatar-upload">
+                                <div class="avatar-edit">
+                                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"  required/>
+                                    <label for="imageUpload"></label>
+                                </div>
+                                <div class="avatar-preview">
+                                    <div id="imagePreview" style="background-image: url(res/images/profile.png);">
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Details</div>
+                    <div class="card-body">
+                        
+                            <!-- Form Group (username)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="name">Name</label>
+                                <input required class="form-control" id="name" type="text" placeholder="Name" >
+                            </div>
+                            <!-- Form Row        -->
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="email">Email</label>
+                                    <input required class="form-control" id="email" type="text" placeholder="Email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="phone">Phone</label>
+                                    <input required class="form-control" id="phone" type="text" placeholder="Phone">
+                                </div>
+                            </div>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="gendersel">Gender</label>
+                                    <select class="form-control" id="gendersel">
+                                        <option value="blank" selected disabled>Gender</option>
+                                        <option value="M">Male</option>
+                                        <option value="F" >Female</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="small mb-1"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Date Of Birth</label> 
+                                    <input required type="date" id="dob" class="form-control" name="dob" value="<?php echo date('Y-m-d'); ?>" />
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="position">Position</label>
+                                    <input required class="form-control" id="position" type="email" placeholder="Position">
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="small mb-1"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Company Joining Date</label> 
+                                    <input required type="date" id="jdate" class="form-control" name="jdate" value="<?php echo date('Y-m-d'); ?>" />
+                                </div>
+                            </div>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="deptsel">Department</label>
+                                    <select class="form-control" id="deptsel">
+                                        <option value="" selected disabled>Department</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label  class="small mb-1"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Department Joining Date</label> 
+                                    <input required type="date" id="ddate" class="form-control" name="ddate" value="<?php echo date('Y-m-d'); ?>" />
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="button" id="subbtn">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    $(document).ready(function() {
+        let empid = getQueryParam('data');
+        if (empid) {
+            $('#empid').text(empid);
+            $.ajax({
+                type: "GET",
+                url: "emp.php?id=" + empid + "&function=getdetails",
+                dataType: "json",
+                success: function(response) { 
+                    console.log(response);
+                    $("#name").val(response.name);
+                    $("#email").val(response.email);
+                    $("#phone").val(response.phone);
+                    $("#dob").val(response.birth_date);
+                    $("#position").val(response.position);
+                    $("#jdate").val(response.hire_date);
+                    $("#ddate").val(response.from_date);
+                    $("#deptsel").val(response.dept_no);
+                    $("#gendersel").val(response.gender);
+                    $("#imagePreview").css('background-image', 'url('+response.image+')');
+                }
+            });
+        } 
+        $.ajax({
+                url: 'emp.php?function=fetchoptions',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var $select = $('#deptsel');
+                    $.each(data, function(index, item) {
+                        $select.append($('<option>', {
+                            value: item.dept_no,
+                            text: item.dept_name
+                        }));
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+                    $('#imagePreview').hide();
+                    $('#imagePreview').fadeIn(650);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#imageUpload").change(function() {
+            readURL(this);
+        });
+
+        $('#subbtn').click(function(event){
+            event.preventDefault(); 
+            console.log("btn");
+            get3(); 
+        });
+
+        function get3(){
+            let formData = new FormData();
+            formData.append('name', $("#name").val());
+            formData.append('email', $("#email").val());
+            formData.append('phone', $("#phone").val());
+            formData.append('dob', $("#dob").val());
+            formData.append('gendr', $("#gendersel").val());
+            formData.append('position', $("#position").val());
+            formData.append('jdate', $("#jdate").val());
+            formData.append('dept', $("#deptsel").val());
+            formData.append('ddate', $("#ddate").val());
+            formData.append('empno',empid);
+            formData.append('function',"update");
+            
+
+
+            // Append the file
+            let fileInput = $('#imageUpload')[0].files[0];
+
+            if (fileInput) {
+                formData.append('image', fileInput);
+            }else{
+                formData.append('image', response.image)
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "emp.php",
+                data: formData,
+                dataType: "json",
+                processData: false, 
+                contentType: false, 
+                success: function(response) { 
+                    window.alert(response.response); 
+                    console.log(response);
+                    location.reload();
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    alert("An error occurred: " + xhr.status + " " + xhr.statusText);
+                    console.error("Error:", xhr, textStatus, errorThrown);
+                }
+            });
+        }
+
+    });
+</script>
+</html>

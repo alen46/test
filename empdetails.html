@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <script src="res/js/jquery-3.7.1.min.js"></script>
+    <script src="res/js/bootstrap.bundle.min.js" ></script>
+    <link href="res/css/bootstrap.min.css" rel="stylesheet" >
+<link rel="stylesheet" href="res/css/empdetails.css">
+<style>
+  .container {
+  max-width: 960px;
+  margin: 30px auto;
+  padding: 20px;
+}
+h1 {
+  font-size: 20px;
+  text-align: center;
+  margin: 20px 0 20px;
+}
+h1 small {
+  display: block;
+  font-size: 15px;
+  padding-top: 8px;
+  color: gray;
+}
+.avatar-upload {
+  position: relative;
+  max-width: 205px;
+  margin: 50px auto;
+}
+.avatar-upload .avatar-edit {
+  position: absolute;
+  right: 12px;
+  z-index: 1;
+  top: 10px;
+}
+.avatar-upload .avatar-edit input {
+  display: none;
+}
+.avatar-upload .avatar-edit input + label {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  background: #FFFFFF;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+.avatar-upload .avatar-edit input + label:hover {
+  background: #f1f1f1;
+  border-color: #d6d6d6;
+}
+.avatar-upload .avatar-edit input + label:after {
+  content: "\f040";
+  font-family: 'FontAwesome';
+  color: #757575;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+}
+.avatar-upload .avatar-preview {
+  width: 192px;
+  height: 192px;
+  position: relative;
+  border-radius: 100%;
+  border: 6px solid #F8F8F8;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-upload .avatar-preview > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-body">
+          <div class="row">
+            <div class="col-xl-4" >
+          <div class="card mb-4 mb-xl-0">
+              <div class="card-header">Profile Picture</div>
+              <div class="card-body text-center">
+                  <!-- Profile picture image-->
+                      <div class="avatar-upload">
+                          <div class="avatar-edit">
+                              <label for="image"></label>
+                          </div>
+                          <div class="avatar-preview">
+                              <div id="image" style="background-image: url(res/images/profile.png);"></div>
+                              
+                          </div>
+                  </div>
+                  <h4 id="name">Name</h4>
+                          <p class="text-secondary mb-1" id="position">Position</p>
+                          <p class="text-muted font-size-sm" id="dept">Department</p>
+              </div>
+          </div>
+
+                </div>
+                <div class="col-md-8">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">ID</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary" id="empid">
+                              ID
+                            </div>
+                          </div>
+                          <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Name</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" id="name2">
+                          Name
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row" >
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" id="email">
+                          email
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Phone</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" id="phone">
+                          phone
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Date Of Birth</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" id="dob">
+                          dob
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Gender</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" id="gender">
+                          Gender
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Position</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" id="position2">
+                          Position
+                        </div>
+                      </div>
+                      
+                      <hr>
+                      <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Company Joining Date</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary" id="jdate">
+                       Company Joining Date
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Department</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary" id="dept2">
+                        Department
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Department Joining Date</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" id="ddate">
+                          Department Joining Date
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <a class="btn btn-info " target="__blank" id="editlink" href="#">Edit</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+
+</body>
+<script>
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    $(document).ready(function() {
+        var empid = getQueryParam('data');
+        if (empid) {
+            $('#empid').text(empid);
+            $.ajax({
+                type: "GET",
+                url: "emp.php?id=" + empid + "&function=getdetails",
+                dataType: "json",
+                success: function(response) { 
+                  console.log(response);
+                  $("#name").text(response.name);
+                  $("#name2").text(response.name);
+                  $("#email").text(response.email);
+                  $("#phone").text(response.phone);
+                  $("#dob").text(response.birth_date);
+                  $("#position").text(response.position);
+                  $("#position2").text(response.position);
+                  $("#jdate").text(response.hire_date);
+                  $("#ddate").text(response.from_date);
+                  $("#dept").text(response.dept_name);
+                  $("#dept2").text(response.dept_name);
+                  if(response.gender == 'M'){
+                      $("#gender").text("Male");
+                  }else if(response.gender == 'F'){
+                      $("#gender").text("Female");
+                  }
+                  $("#image").css('background-image', 'url('+response.image+')');
+                  $("#editlink").attr("href",`editemp.html?data=${empid}`);
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    alert("An error occurred: " + xhr.status + " " + xhr.statusText);
+                    console.error("Error:", xhr, textStatus, errorThrown);
+                }
+            });
+        }
+
+    });
+
+</script>
+</html>
